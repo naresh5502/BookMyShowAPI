@@ -8,23 +8,19 @@ const SeatSchema = new mongoose.Schema(
       required: true,
       
     },
-
     seatNumber: {
-      type: String, // A1, A2, B5, etc.
+      type: String,
       required: true,
 
     },
-
     row: {
       type: String,
       required: true,
     },
-
     col: {
       type: Number,
       required: true,
     },
-    
     seatType: {
       type: String,
       enum: ["SILVER", "GOLD", "PLATINUM"],
@@ -36,6 +32,12 @@ const SeatSchema = new mongoose.Schema(
     },
   },
   { timestamps: true }
+);
+
+// 🆕 IMPORTANT: Prevent duplicates INSIDE a screen
+SeatSchema.index(
+  { screenId: 1, seatNumber: 1 },
+  { unique: true }
 );
 
 module.exports = mongoose.model("Seat", SeatSchema);
